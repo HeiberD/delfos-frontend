@@ -1,1 +1,59 @@
-<p>administrative-user-new-form works!</p>
+<form [formGroup]="formData">
+    <h1>Administrative User Register</h1>
+    <div class="field">
+        <label for="role">Role</label>
+        <select formControlName="role" id="role">
+            <option value="">Select Role</option>
+            <option value="superadmin">System Super Admin</option>
+            <option value="admin">System Admin</option>
+            <option value="auditor">Auditor</option>
+        </select>
+    </div>
+    <div class="field">
+        <label for="nuip">NUIP</label>
+        <input type="text" id="nuip" formControlName="nuip">
+    </div>
+    <div class="field">
+        <label for="names">Names</label>
+        <input type="text" id="names" formControlName="names">
+    </div>
+    <div class="field">
+        <label for="lastName">Last Name</label>
+        <input type="text" id="lastName" formControlName="lastName">
+    </div>
+    <div class="field">
+        <label for="secondLastName">Second Last Name</label>
+        <input type="text" id="secondLastName" formControlName="secondLastName">
+    </div>
+    <div class="field">
+        <label for="jobTitle">Job Title</label>
+        <input type="text" id="jobTitle" formControlName="jobTitle">
+    </div>
+    <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" formControlName="email">
+    </div>
+    <div class="field">
+        <label for="password">Password</label>
+        <input type="password" id="password" formControlName="password">
+    </div>
+    <div class="field">
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" id="confirmPassword" name="confirmPassword">
+    </div>
+    <div class="field">
+        <label for="status">Status</label>
+        <div>
+            <input type="radio" id="active" formControlName="status" value="active">
+            <label for="active">Active</label>
+            <input type="radio" id="inactive" formControlName="status" value="inactive">
+            <label for="inactive">Inactive</label>
+            <input type="radio" id="suspended" formControlName="status" value="suspended">
+            <label for="suspended">Suspended</label>
+        </div>
+    </div>
+    <div class="field buttons">
+        <button type="submit">Register</button>
+        <button type="reset">Reset</button>
+    </div>
+</form>
