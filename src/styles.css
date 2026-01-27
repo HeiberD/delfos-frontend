@@ -1,1 +1,763 @@
-/* You can add global styles to this file, and also import other style files */
+/* =========================================
+   VARIABLES GLOBALES (TEMA ENTERPRISE)
+   ========================================= */
+:root {
+    /* Paleta de Colores */
+    --primary-color: #2563eb;
+    /* Azul corporativo (Acción Principal) */
+    --primary-hover: #1d4ed8;
+    /* Azul oscuro (Al pasar el mouse) */
+    --bg-app: #f1f5f9;
+    /* Gris muy claro (Fondo general de la pantalla) */
+    --bg-surface: #ffffff;
+    /* Blanco (Fondo de tarjetas y menús) */
+
+    /* Textos */
+    --text-main: #1e293b;
+    /* Gris oscuro (Texto principal para lectura) */
+    --text-muted: #64748b;
+    /* Gris medio (Labels, placeholders, info secundaria) */
+
+    /* Utilidades */
+    --border-color: #cbd5e1;
+    /* Color para bordes sutiles */
+    --error-color: #ef4444;
+    /* Rojo semántico para errores y alertas */
+    --radius: 6px;
+    /* Bordes redondeados consistentes en toda la app */
+
+    /* Sombras (Efectos de profundidad) */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    /* Sombra pequeña para bordes */
+    --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    /* Sombra media para tarjetas y menús */
+
+    /* Fuente principal */
+    --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* =========================================
+   RESET & BASE (Configuración inicial)
+   ========================================= */
+* {
+    box-sizing: border-box;
+    /* Asegura que el padding no aumente el ancho total de los elementos */
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--bg-app);
+    color: var(--text-main);
+    margin: 0;
+    /* Flexbox para asegurar que el footer siempre pueda ir al fondo si hiciera falta */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* =========================================
+   HEADER (NAVEGACIÓN - VISTA ESCRITORIO)
+   ========================================= */
+
+/* Barra de Navegación Principal */
+.navbar {
+    background-color: var(--bg-surface);
+    height: 70px;
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+
+    /* Flexbox para alinear Logo (Izq) - Menú (Centro) - Logout (Der) */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+
+    /* Sticky: Hace que el menú se quede pegado arriba al hacer scroll */
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    /* Asegura que el menú flote sobre cualquier otro elemento */
+}
+
+/* Zona Izquierda (Logo y Botón Móvil) */
+.navbar-left {
+    display: flex;
+    align-items: center;
+    min-width: 180px;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+/* --- BOTÓN HAMBURGUESA (NUEVO) --- */
+/* Por defecto está OCULTO (display: none) porque estamos en PC.
+   Solo aparecerá cuando entremos en modo móvil (ver @media abajo) */
+.hamburger-btn {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-main);
+    cursor: pointer;
+    padding: 0.5rem;
+    margin-right: 10px;
+    /* Separación con el logo */
+}
+
+/* Lista del Menú Central */
+.navbar-menu {
+    list-style: none;
+    /* Quita los puntos de la lista */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    /* Elementos uno al lado del otro */
+    height: 100%;
+    gap: 0.5rem;
+    /* Espacio entre botones */
+}
+
+/* Cada ítem del menú (El padre del desplegable) */
+.dropdown-item {
+    position: relative;
+    /* Importante: sirve de ancla para el submenú absoluto */
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+/* El enlace visible (Texto: Users, Clients...) */
+.menu-trigger {
+    text-decoration: none;
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 0 1.2rem;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    /* Suaviza el cambio de color */
+    border-bottom: 3px solid transparent;
+    /* Línea invisible lista para el hover */
+    user-select: none;
+    /* Evita que se seleccione el texto al dar doble click */
+}
+
+/* Efecto al pasar el mouse por el menú */
+.menu-trigger:hover,
+.dropdown-item:hover .menu-trigger {
+    color: var(--primary-color);
+    background-color: #f8fafc;
+    /* Gris muy tenue */
+    border-bottom-color: var(--primary-color);
+    /* Aparece la línea azul abajo */
+}
+
+/* La flechita ▼ */
+.arrow {
+    font-size: 0.7rem;
+    margin-left: 8px;
+    color: #94a3b8;
+    transition: transform 0.2s;
+    /* Animación de rotación */
+}
+
+/* Girar flecha 180 grados al pasar el mouse */
+.dropdown-item:hover .arrow {
+    transform: rotate(180deg);
+    color: var(--primary-color);
+}
+
+/* --- SUBMENÚ DESPLEGABLE (Caja Flotante) --- */
+.dropdown-content {
+    display: none;
+    /* Oculto por defecto */
+    position: absolute;
+    /* Flota sobre el contenido */
+    top: 70px;
+    /* Se ubica justo debajo de la barra (70px es la altura del navbar) */
+    left: 0;
+    background-color: var(--bg-surface);
+    min-width: 240px;
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--border-color);
+    border-radius: 0 0 var(--radius) var(--radius);
+    /* Redondea solo abajo */
+    list-style: none;
+    padding: 0.5rem 0;
+    z-index: 1001;
+    /* Encima del navbar */
+    animation: slideDown 0.15s ease-out;
+    /* Animación de entrada */
+}
+
+/* Lógica CSS pura: Si hago hover en el padre (.dropdown-item), muestro el hijo (.dropdown-content) */
+.dropdown-item:hover .dropdown-content {
+    display: block;
+}
+
+/* Enlaces dentro del submenú */
+.dropdown-content li a {
+    display: block;
+    padding: 0.75rem 1.5rem;
+    text-decoration: none;
+    color: var(--text-main);
+    font-size: 0.9rem;
+    transition: background 0.1s;
+    border-left: 3px solid transparent;
+    /* Línea vertical invisible a la izquierda */
+}
+
+/* Hover en los sub-enlaces */
+.dropdown-content li a:hover {
+    background-color: var(--bg-app);
+    color: var(--primary-color);
+    border-left-color: var(--primary-color);
+    /* Pinta la línea vertical azul */
+}
+
+/* Línea divisoria decorativa */
+.divider {
+    height: 1px;
+    background-color: var(--border-color);
+    margin: 0.5rem 0;
+    opacity: 0.5;
+}
+
+/* Zona Derecha (Botón Logout) */
+.navbar-right {
+    display: flex;
+    align-items: center;
+}
+
+.logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    /* Espacio entre texto e ícono */
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--border-color);
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+    border-radius: 50px;
+    /* Estilo píldora (muy redondeado) */
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.logout-btn:hover {
+    background-color: #fef2f2;
+    /* Fondo rojizo suave */
+    color: var(--error-color);
+    border-color: #fecaca;
+}
+
+/* Definición de la animación "slideDown" (Deslizar hacia abajo) */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================================
+   FORMULARIO & COMPONENTES (Estilo Tarjeta)
+   ========================================= */
+form {
+    background-color: var(--bg-surface);
+    max-width: 900px;
+    margin: 2rem auto;
+    /* Centrado horizontal */
+    padding: 2.5rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--border-color);
+
+    /* CSS GRID: Crea 2 columnas iguales automáticamente */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    /* Espacio entre casillas */
+    align-items: start;
+}
+
+form h1 {
+    grid-column: 1 / -1;
+    /* Ocupa desde la línea 1 hasta el final (todo el ancho) */
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    color: var(--text-main);
+    border-bottom: 1px solid var(--bg-app);
+    padding-bottom: 1rem;
+}
+
+/* Contenedor genérico de campo (Label + Input) */
+.field {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Clases utilitarias para campos anchos */
+.field.full-width,
+.field:has(textarea),
+.field.buttons {
+    grid-column: 1 / -1;
+    /* Forza a ocupar las 2 columnas */
+}
+
+label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-main);
+}
+
+/* Estilos comunes para todos los inputs */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select,
+textarea {
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    font-size: 0.95rem;
+    color: var(--text-main);
+    background-color: #fff;
+    width: 100%;
+    transition: all 0.2s ease;
+}
+
+/* Estado Focus (Cuando haces clic para escribir) */
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    /* Anillo de resplandor azul */
+}
+
+/* Radios (Botones circulares de selección) */
+.field>div:has(input[type="radio"]) {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    padding-top: 0.5rem;
+}
+
+input[type="radio"] {
+    accent-color: var(--primary-color);
+    /* Pinta el puntito de azul */
+    width: 1.2em;
+    height: 1.2em;
+    cursor: pointer;
+}
+
+/* Mensajes de Error */
+.error {
+    min-height: 1.2rem;
+    margin-top: 0.25rem;
+}
+
+small.error {
+    color: var(--error-color);
+    font-size: 0.8rem;
+    font-weight: 500;
+    display: block;
+}
+
+/* Validación Angular: Borde rojo si es inválido y fue tocado */
+input.ng-invalid.ng-touched,
+select.ng-invalid.ng-touched {
+    border-color: var(--error-color);
+    background-color: #fef2f2;
+}
+
+/* Área de Botones */
+.buttons {
+    display: flex;
+    justify-content: flex-end;
+    /* Alinea los botones a la derecha */
+    gap: 1rem;
+    margin-top: 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--bg-app);
+}
+
+button {
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+}
+
+/* Botón Primario (Register) */
+button.register {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+button.register:hover:not(:disabled) {
+    background-color: var(--primary-hover);
+    box-shadow: 0 2px 4px rgba(37, 99, 235, 0.3);
+}
+
+button.register:disabled {
+    background-color: var(--text-muted);
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Botón Secundario (Reset) */
+button.reset {
+    background-color: white;
+    color: var(--text-main);
+    border-color: var(--border-color);
+}
+
+button.reset:hover {
+    background-color: var(--bg-app);
+    border-color: var(--text-muted);
+}
+
+/* =========================================
+   ESTILOS GLOBALES PARA MODALES (ÉXITO/ERROR)
+   ========================================= */
+
+/* Fondo oscuro transparente */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    /* Muy alto para tapar todo */
+    backdrop-filter: blur(3px);
+    /* Efecto moderno */
+}
+
+/* Caja blanca del mensaje */
+.modal-content {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    /* Rebote suave */
+    min-width: 320px;
+    max-width: 90%;
+}
+
+.modal-content h2 {
+    margin: 20px 0 10px;
+}
+
+.modal-content p {
+    color: #666;
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+}
+
+/* Botones del modal */
+.modal-btn {
+    padding: 10px 30px;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+
+.modal-btn:active {
+    transform: scale(0.95);
+}
+
+.modal-btn.success {
+    background-color: #4CAF50;
+    box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+}
+
+.modal-btn.error {
+    background-color: #F44336;
+    box-shadow: 0 4px 10px rgba(244, 67, 54, 0.3);
+}
+
+/* --- ANIMACIONES SVG (Círculo y Check/X) --- */
+.checkmark-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.checkmark {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: block;
+    stroke-width: 3;
+    stroke: #fff;
+    stroke-miterlimit: 10;
+    box-shadow: inset 0px 0px 0px transparent;
+}
+
+/* Círculo que se dibuja */
+.checkmark__circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 3;
+    stroke-miterlimit: 10;
+    fill: none;
+    animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+/* El Check o la X */
+.checkmark__check {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+/* --- VARIANTE VERDE (SUCCESS) --- */
+.checkmark.success {
+    animation: fillSuccess .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+}
+
+.checkmark__circle.success {
+    stroke: #4CAF50;
+}
+
+/* --- VARIANTE ROJA (ERROR) --- */
+.checkmark.error {
+    animation: fillError .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+}
+
+.checkmark__circle.error {
+    stroke: #F44336;
+}
+
+.checkmark__check.error {
+    stroke-dasharray: 60;
+    stroke-dashoffset: 60;
+}
+
+/* Ajuste para la X que es más larga */
+
+/* Keyframes */
+@keyframes stroke {
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes scale {
+
+    0%,
+    100% {
+        transform: none;
+    }
+
+    50% {
+        transform: scale3d(1.1, 1.1, 1);
+    }
+}
+
+@keyframes fillSuccess {
+    100% {
+        box-shadow: inset 0px 0px 0px 50px #4CAF50;
+    }
+}
+
+@keyframes fillError {
+    100% {
+        box-shadow: inset 0px 0px 0px 50px #F44336;
+    }
+}
+
+@keyframes popIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* =========================================
+   ZONA RESPONSIVE (MÓVIL Y TABLET)
+   ========================================= */
+/* Esta sección solo se activa si la pantalla mide 768px o menos */
+
+/* --- 1. HEADER (MODO HAMBURGUESA) --- */
+@media (max-width: 768px) {
+    .navbar {
+        justify-content: space-between;
+        padding: 0 1rem;
+    }
+
+    /* Mostramos el botón de las 3 rayitas */
+    .hamburger-btn {
+        display: block;
+    }
+
+    /* --- CONTENEDOR PRINCIPAL DEL MENÚ (VERTICAL) --- */
+    .navbar-menu {
+        display: none;
+        /* Oculto inicialmente */
+
+        /* Cuando se active, será una columna vertical */
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        height: auto;
+        /* La altura se adapta al contenido */
+        background-color: var(--bg-surface);
+        border-bottom: 1px solid var(--border-color);
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        /* Sombra más fuerte para resaltar sobre el form */
+        padding: 0;
+        gap: 0;
+    }
+
+    /* Clase que Angular pone cuando pulsas la hamburguesa */
+    .navbar-menu.is-active {
+        display: flex;
+        animation: slideDown 0.2s ease-out;
+    }
+
+    /* --- ÍTEMS Y DISPARADORES --- */
+    .dropdown-item {
+        flex-direction: column;
+        /* Para que el submenú caiga DEBAJO del título */
+        align-items: flex-start;
+        height: auto;
+        width: 100%;
+        border-bottom: 1px solid #f1f5f9;
+        /* Línea separadora entre categorías */
+    }
+
+    .menu-trigger {
+        width: 100%;
+        justify-content: space-between;
+        /* Users a la izq, flecha a la der */
+        padding: 1.2rem 1.5rem;
+        /* Más espacio para dedos grandes */
+    }
+
+    /* --- SUBMENÚS (LÓGICA DE ACORDEÓN) --- */
+    /* CORRECCIÓN IMPORTANTE:
+       Antes teníamos 'display: block' siempre, por eso salía todo abierto.
+       Ahora lo ponemos 'display: none' por defecto.
+    */
+    .dropdown-content {
+        position: static;
+        /* Ya no flota, ocupa espacio físico */
+        display: none;
+        /* OCULTO POR DEFECTO */
+        width: 100%;
+        box-shadow: none;
+        border: none;
+        background-color: #f8fafc;
+        /* Fondo gris suave */
+        padding-left: 0;
+    }
+
+    /* SOLO mostramos el contenido si el padre (.dropdown-item) tiene la clase .active 
+       Esta clase la controlamos desde el archivo TS con activeDropdown
+    */
+    .dropdown-item.active .dropdown-content {
+        display: block;
+        animation: slideDown 0.2s ease-out;
+        /* Pequeña animación al abrir */
+    }
+
+    /* Girar la flecha si está activo */
+    .dropdown-item.active .arrow {
+        transform: rotate(180deg);
+        color: var(--primary-color);
+    }
+
+    /* Estilo de los enlaces hijos */
+    .dropdown-content li a {
+        padding: 0.9rem 2rem;
+        /* Indentación para que se vea jerárquico */
+        font-size: 0.9rem;
+    }
+
+
+    /* NUEVO: ESTILO PARA EL TELÓN DE FONDO (OVERLAY)
+       Esta capa cubre toda la pantalla para detectar clics fuera del menú.
+    */
+
+    .menu-overlay {
+        position: fixed;
+        /* Se queda fija aunque hagas scroll */
+        top: 0;
+        left: 0;
+        width: 100vw;
+        /* Ocupa el 100% del ancho de la ventana */
+        height: 100vh;
+        /* Ocupa el 100% del alto de la ventana */
+
+        /* Z-INDEX EXPLICADO:
+           Header tiene z-index: 1000.
+           El menú desplegado (.navbar-menu) está dentro del header, así que se ve.
+           Ponemos este overlay en 999.
+           
+           Resultado: 
+           - Header/Menú (1000) > Overlay (999) > Contenido Web (0).
+           
+           Así, si tocas el menú (1000), no tocas el overlay.
+           Pero si tocas el formulario (0), el overlay (999) lo intercepta y cierra el menú.
+        */
+        z-index: 999;
+
+        background-color: transparent;
+        /* Invisible */
+        /* Opcional: Si quieres que se oscurezca el fondo, usa:
+           background-color: rgba(0,0,0,0.3); 
+        */
+    }
+}
+
+/* --- 2. FORMULARIOS (MÓVIL) --- */
+@media (max-width: 768px) {
+    form {
+        grid-template-columns: 1fr;
+        padding: 1.5rem;
+        margin: 1rem;
+        width: auto;
+    }
+
+    .buttons {
+        flex-direction: column-reverse;
+    }
+
+    button {
+        width: 100%;
+    }
+}

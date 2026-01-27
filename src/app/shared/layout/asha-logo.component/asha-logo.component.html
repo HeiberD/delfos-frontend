@@ -1,0 +1,41 @@
+<!-- Contenedor principal que aplica clases CSS dinámicamente según las variables 'type' y 'theme' -->
+<!-- 
+    - <div>: Define el contenedor principal del componente.
+    - class="logo-container": Aplica una clase CSS estática para los estilos base.
+    - [ngClass]="[type, theme]": Directiva de Angular que añade clases dinámicamente basándose en los valores de las variables 'type' y 'theme'.
+-->
+<div class="logo-container" [ngClass]="[type, theme]">
+
+    <!-- Definición del icono SVG con un área de dibujo de 77x100 unidades -->
+    <!-- xmlns: xmlNameSpace:¡Trátame como un dibujo vectorial, no como una página web puto! -->
+
+    <!-- Estructura de control de Angular: renderiza este bloque solo si 'type' es igual a 'icon' -->
+    <svg class="asha-svg" viewBox="0 0 77 100" xmlns="http://www.w3.org/2000/svg">
+        <!-- El atributo 'd' significa 'data' y define el trazado: M (Move to), L (Line to), Z (Close path) -->
+        <!-- Dibuja la parte izquierda del logo usando coordenadas de trazado -->
+        <path class="wedge" d="M 0 100 L 38.5 0 L 38.5 36 L 15.5 96 Z" />
+        <!-- Dibuja la parte derecha del logo de forma simétrica -->
+        <path class="wedge" d="M 77 100 L 38.5 0 L 38.5 36 L 61.5 96 Z" />
+        <!-- Dibuja un elemento decorativo adicional en la parte inferior -->
+        <path class="wedge" d="M 18 95 L 46.2 59 L 51.3 73 L 18 95 Z" />
+    </svg>
+
+    <!-- Estructura de control de Angular: renderiza este bloque solo si 'type' es igual a 'logo' -->
+    @if (type === 'logo') {
+    <div class="text-wrapper logo-text">
+        <!-- Muestra el texto 'SHA' como encabezado principal -->
+        <h1 class="brand-name">SHA</h1>
+    </div>
+    }
+
+    <!-- Estructura de control de Angular: renderiza este bloque solo si 'type' es igual a 'brand' -->
+    @if (type === 'brand') {
+    <div class="text-wrapper brand-text">
+        <!-- Muestra el nombre completo 'ASHA' como encabezado principal -->
+        <h1 class="brand-name">ASHA</h1>
+        <!-- Muestra el eslogan de la empresa debajo del nombre -->
+        <div class="tagline">Intelligence & Security</div>
+    </div>
+    }
+
+</div>

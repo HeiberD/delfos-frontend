@@ -1,0 +1,136 @@
+/* =========================
+   CONTENEDOR BASE
+   ========================= */
+:host {
+    display: inline-block;
+    /* El componente se comporta como un bloque en línea */
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    /* Centrado verticalmente */
+    transition: all 0.3s ease;
+    cursor: pointer;
+    /* Indica que puede ser clickeable (ej. ir a Home) */
+}
+
+/* =========================
+   CONFIGURACIÓN DE LAYOUT (POSICIÓN)
+   Según el 'type'
+   ========================= */
+
+/* 1. Tipo ICON: Solo SVG, centrado */
+.logo-container.icon {
+    justify-content: center;
+    gap: 0;
+}
+
+/* 2. Tipo LOGO: Horizontal (SVG + SHA) */
+.logo-container.logo {
+    flex-direction: row;
+    gap: 2px;
+    /* Espacio mínimo entre la 'A' y 'SHA' para que se lea 'ASHA' */
+}
+
+/* 3. Tipo BRAND: Vertical (SVG arriba, Texto abajo) */
+.logo-container.brand {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+}
+
+/* =========================
+   ESTILOS DEL SVG (LA 'A')
+   ========================= */
+.asha-svg {
+    /* Tamaño base, puede ser sobreescrito por el padre si es necesario */
+    height: 50px;
+    width: auto;
+    transition: filter 0.3s ease;
+    padding-right: 5px;
+    /* Un pequeño respiro */
+}
+
+/* En modo BRAND, el logo es más grande (como en tu archivo original) */
+.logo-container.brand .asha-svg {
+    height: 100px;
+    /* Más imponente */
+    padding-right: 0;
+}
+
+/* =========================
+   TIPOGRAFÍA
+   ========================= */
+.brand-name {
+    font-family: 'Montserrat', sans-serif;
+    /* Tu fuente elegida */
+    font-weight: 500;
+    line-height: 1;
+    text-transform: uppercase;
+    margin: 0;
+
+    /* Ajuste para que coincida visualmente con el SVG */
+    font-size: 48px;
+    letter-spacing: 5px;
+}
+
+.tagline {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.2rem;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-top: 5px;
+}
+
+/* =================================================
+   TEMAS DE COLOR (LIGHT vs DARK)
+   Aquí está la magia para el futuro Switch
+   ================================================= */
+
+/* --- TEMA CLARO (LIGHT) --- */
+/* Usamos tus colores azules originales */
+.logo-container.light .wedge {
+    fill: #2563eb;
+    /* Azul Corporativo */
+}
+
+.logo-container.light .brand-name,
+.logo-container.light .tagline {
+    color: #1e293b;
+    /* Gris oscuro */
+}
+
+.logo-container.light .asha-svg {
+    filter: drop-shadow(0 0 5px rgba(37, 99, 235, 0.3));
+}
+
+.logo-container.light:hover .asha-svg {
+    filter: drop-shadow(0 0 12px rgba(37, 99, 235, 0.6));
+}
+
+/* --- TEMA OSCURO (DARK) --- */
+/* Usamos tus colores dorados/ámbar originales */
+.logo-container.dark .wedge {
+    fill: #FFBF00;
+    /* Oro Cibernético */
+}
+
+.logo-container.dark .brand-name {
+    color: #e2e8f0;
+    /* Blanco hueso */
+}
+
+.logo-container.dark .tagline {
+    color: #94a3b8;
+    /* Gris azulado */
+}
+
+.logo-container.dark .asha-svg {
+    filter: drop-shadow(0 0 5px rgba(255, 191, 0, 0.3));
+}
+
+.logo-container.dark:hover .asha-svg {
+    filter: drop-shadow(0 0 12px rgba(255, 191, 0, 0.6));
+}

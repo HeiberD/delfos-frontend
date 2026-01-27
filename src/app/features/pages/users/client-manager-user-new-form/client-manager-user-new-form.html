@@ -1,12 +1,10 @@
 <form [formGroup]="formData" (ngSubmit)="onSubmit()">
-    <h1>Administrative User Register</h1>
+    <h1>Client Manager User</h1>
     <div class="field">
         <label for="role">Role</label>
         <select formControlName="role" id="role">
             <option value="">Select Role</option>
-            <option value="superadmin">System Super Admin</option>
-            <option value="admin">System Admin</option>
-            <option value="auditor">Auditor</option>
+            <option value="clientManager">Administrador de Clientes</option>
         </select>
 
         <div class="error">
@@ -20,27 +18,6 @@
             }
         </div>
     </div>
-
-    <!-- <div class="field">
-        <label for="users">Users</label>
-        <select formControlName="users" id="users">
-            <option value="">Select User</option>
-            @for (user of users | async; track user.id) {
-            <option [value]="user.id">{{ user.fullName }}</option>
-            }
-        </select>
-
-        <div class="error">
-            @if(this.formData.get('users')?.invalid && (
-            this.formData.get('users')?.dirty ||
-            this.formData.get('users')?.touched)) {
-            Verificar las validaciones para el campo users
-            @if(this.formData.get('users')?.errors?.['required']) {
-            <small class="error">Users es requerido.</small>
-            }
-            }
-        </div>
-    </div> -->
 
     <div class="field">
         <label for="nuip">NUIP</label>
@@ -122,24 +99,6 @@
         </div>
     </div>
     <div class="field">
-        <label for="jobTitle">Job Title</label>
-        <input type="text" id="jobTitle" formControlName="jobTitle">
-
-        <div class="error">
-            @if(this.formData.get('jobTitle')?.invalid && (
-            this.formData.get('jobTitle')?.dirty ||
-            this.formData.get('jobTitle')?.touched)) {
-            <!-- Verificar las validaciones para el campo jobTitle -->
-            @if(this.formData.get('jobTitle')?.errors?.['required']) {
-            <small class="error">Cargo es requerido.</small>
-            }
-            @if(this.formData.get('jobTitle')?.errors?.['pattern']) {
-            <small class="error">Cargo debe ser solo texto.</small>
-            }
-            }
-        </div>
-    </div>
-    <div class="field full-width">
         <label for="email">Email</label>
         <input type="email" id="email" formControlName="email">
 
@@ -158,31 +117,112 @@
         </div>
     </div>
     <div class="field">
-        <label for="password">Password</label>
-        <input type="password" id="password" formControlName="password">
+        <label for="birthDate">Birth Date</label>
+        <input type="date" id="birthDate" formControlName="birthDate">
 
         <div class="error">
-            @if(this.formData.get('password')?.invalid && (
-            this.formData.get('password')?.dirty ||
-            this.formData.get('password')?.touched)) {
-            <!-- Verificar las validaciones para el campo password -->
-            @if(this.formData.get('password')?.errors?.['required']) {
-            <small class="error">Password es requerido.</small>
-            }
-            @if(this.formData.get('password')?.errors?.['minlength']) {
-            <small class="error">Password debe tener al menos 8 caracteres.</small>
-            }
-            @if(this.formData.get('password')?.errors?.['maxlength']) {
-            <small class="error">Password debe tener maximo 12 caracteres.</small>
+            @if(this.formData.get('birthDate')?.invalid && (
+            this.formData.get('birthDate')?.dirty ||
+            this.formData.get('birthDate')?.touched)) {
+            <!-- Verificar las validaciones para el campo birthDate -->
+            @if(this.formData.get('birthDate')?.errors?.['required']) {
+            <small class="error">Fecha de nacimiento es requerida.</small>
             }
             }
         </div>
     </div>
-    <!--TODO: Add password confirmation-->
     <div class="field">
-        <label for="confirmPassword">Confirm Password</label>
-        <input type="password" id="confirmPassword" name="confirmPassword">
+        <label for="birthPlace">Birth Place</label>
+        <input type="text" id="birthPlace" formControlName="birthPlace">
+
+        <div class="error">
+            @if(this.formData.get('birthPlace')?.invalid && (
+            this.formData.get('birthPlace')?.dirty ||
+            this.formData.get('birthPlace')?.touched)) {
+            <!-- Verificar las validaciones para el campo birthPlace -->
+            @if(this.formData.get('birthPlace')?.errors?.['required']) {
+            <small class="error">Lugar de nacimiento es requerido.</small>
+            }
+            }
+        </div>
     </div>
+
+    <div class="field">
+        <label for="issueDate">Issue Date</label>
+        <input type="date" id="issueDate" formControlName="issueDate">
+
+        <div class="error">
+            @if(this.formData.get('issueDate')?.invalid && (
+            this.formData.get('issueDate')?.dirty ||
+            this.formData.get('issueDate')?.touched)) {
+            <!-- Verificar las validaciones para el campo issueDate -->
+            @if(this.formData.get('issueDate')?.errors?.['required']) {
+            <small class="error">Fecha de expedicion es requerida.</small>
+            }
+            }
+        </div>
+    </div>
+    <div class="field">
+        <label for="issuePlace">Issue Place</label>
+        <input type="text" id="issuePlace" formControlName="issuePlace">
+
+        <div class="error">
+            @if(this.formData.get('issuePlace')?.invalid && (
+            this.formData.get('issuePlace')?.dirty ||
+            this.formData.get('issuePlace')?.touched)) {
+            <!-- Verificar las validaciones para el campo issuePlace -->
+            @if(this.formData.get('issuePlace')?.errors?.['required']) {
+            <small class="error">Lugar de expedicion es requerido.</small>
+            }
+            }
+        </div>
+    </div>
+    <div class="field">
+        <label for="nacionality">Nacionality</label>
+        <input type="text" id="nacionality" formControlName="nacionality">
+
+        <div class="error">
+            @if(this.formData.get('nacionality')?.invalid && (
+            this.formData.get('nacionality')?.dirty ||
+            this.formData.get('nacionality')?.touched)) {
+            <!-- Verificar las validaciones para el campo nacionality -->
+            @if(this.formData.get('nacionality')?.errors?.['required']) {
+            <small class="error">Nacionalidad es requerida.</small>
+            }
+            }
+        </div>
+    </div>
+    <div class="field">
+        <label for="phones">Phones</label>
+        <input type="text" id="phones" formControlName="phones">
+
+        <div class="error">
+            @if(this.formData.get('phones')?.invalid && (
+            this.formData.get('phones')?.dirty ||
+            this.formData.get('phones')?.touched)) {
+            <!-- Verificar las validaciones para el campo phones -->
+            @if(this.formData.get('phones')?.errors?.['required']) {
+            <small class="error">Telefonos es requerido.</small>
+            }
+            }
+        </div>
+    </div>
+    <div class="field">
+        <label for="address">Address</label>
+        <input type="text" id="address" formControlName="address">
+
+        <div class="error">
+            @if(this.formData.get('address')?.invalid && (
+            this.formData.get('address')?.dirty ||
+            this.formData.get('address')?.touched)) {
+            <!-- Verificar las validaciones para el campo address -->
+            @if(this.formData.get('address')?.errors?.['required']) {
+            <small class="error">Direccion es requerida.</small>
+            }
+            }
+        </div>
+    </div>
+
     <div class="field">
         <label for="status">Status</label>
         <div>
